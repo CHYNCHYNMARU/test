@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ligaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Area">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AreaName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Self.FK_Game_Area" FromRole="Area" ToRole="Game" />
+  </EntityType>
+  <EntityType Name="Efficiency">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Season" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Week" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ResultDay1" Type="Int32" Nullable="false" />
+    <Property Name="ResultDay2" Type="Int32" Nullable="false" />
+    <Property Name="ResultDay3" Type="Int32" Nullable="false" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="GameId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Self.FK_Efficiency_Game1" FromRole="Efficiency" ToRole="Game" />
+    <NavigationProperty Name="Player" Relationship="Self.FK_Efficiency_Player1" FromRole="Efficiency" ToRole="Player" />
+  </EntityType>
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="AreaId" Type="Int32" Nullable="false" />
+    <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="TeamId1" Type="Int32" Nullable="false" />
+    <Property Name="TeamId2" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Area" Relationship="Self.FK_Game_Area" FromRole="Game" ToRole="Area" />
+    <NavigationProperty Name="Efficiency" Relationship="Self.FK_Efficiency_Game1" FromRole="Game" ToRole="Efficiency" />
+    <NavigationProperty Name="Team" Relationship="Self.FK_Game_Team" FromRole="Game" ToRole="Team" />
+    <NavigationProperty Name="Team1" Relationship="Self.FK_Game_Team1" FromRole="Game" ToRole="Team" />
+  </EntityType>
+  <EntityType Name="Player">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Surname" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Adress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="resultpoint" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Efficiency" Relationship="Self.FK_Efficiency_Player1" FromRole="Player" ToRole="Efficiency" />
+    <NavigationProperty Name="Structure" Relationship="Self.FK_Structure_Player1" FromRole="Player" ToRole="Structure" />
+    <NavigationProperty Name="Team" Relationship="Self.FK_Team_Player1" FromRole="Player" ToRole="Team" />
+  </EntityType>
+  <EntityType Name="Structure">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeamId" Type="Int32" Nullable="false" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Player" Relationship="Self.FK_Structure_Player1" FromRole="Structure" ToRole="Player" />
+    <NavigationProperty Name="Team" Relationship="Self.FK_Structure_Team1" FromRole="Structure" ToRole="Team" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Team">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TeamName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CapitanId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Self.FK_Game_Team" FromRole="Team" ToRole="Game" />
+    <NavigationProperty Name="Game1" Relationship="Self.FK_Game_Team1" FromRole="Team" ToRole="Game" />
+    <NavigationProperty Name="Player" Relationship="Self.FK_Team_Player1" FromRole="Team" ToRole="Player" />
+    <NavigationProperty Name="Structure" Relationship="Self.FK_Structure_Team1" FromRole="Team" ToRole="Structure" />
+  </EntityType>
+  <Association Name="FK_Game_Area">
+    <End Role="Area" Type="Self.Area" Multiplicity="1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Area">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="AreaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Efficiency_Game1">
+    <End Role="Game" Type="Self.Game" Multiplicity="1" />
+    <End Role="Efficiency" Type="Self.Efficiency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Efficiency">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Efficiency_Player1">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="Efficiency" Type="Self.Efficiency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Efficiency">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Team">
+    <End Role="Team" Type="Self.Team" Multiplicity="1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="TeamId1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Team1">
+    <End Role="Team" Type="Self.Team" Multiplicity="1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="TeamId2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Structure_Player1">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="Structure" Type="Self.Structure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Structure">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Team_Player1">
+    <End Role="Player" Type="Self.Player" Multiplicity="1" />
+    <End Role="Team" Type="Self.Team" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Player">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Team">
+        <PropertyRef Name="CapitanId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Structure_Team1">
+    <End Role="Team" Type="Self.Team" Multiplicity="1" />
+    <End Role="Structure" Type="Self.Structure" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Team">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Structure">
+        <PropertyRef Name="TeamId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ligaEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Area" EntityType="Self.Area" />
+    <EntitySet Name="Efficiency" EntityType="Self.Efficiency" />
+    <EntitySet Name="Game" EntityType="Self.Game" />
+    <EntitySet Name="Player" EntityType="Self.Player" />
+    <EntitySet Name="Structure" EntityType="Self.Structure" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Team" EntityType="Self.Team" />
+    <AssociationSet Name="FK_Game_Area" Association="Self.FK_Game_Area">
+      <End Role="Area" EntitySet="Area" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Efficiency_Game1" Association="Self.FK_Efficiency_Game1">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="Efficiency" EntitySet="Efficiency" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Efficiency_Player1" Association="Self.FK_Efficiency_Player1">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Efficiency" EntitySet="Efficiency" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Team" Association="Self.FK_Game_Team">
+      <End Role="Team" EntitySet="Team" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Team1" Association="Self.FK_Game_Team1">
+      <End Role="Team" EntitySet="Team" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Structure_Player1" Association="Self.FK_Structure_Player1">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Structure" EntitySet="Structure" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Team_Player1" Association="Self.FK_Team_Player1">
+      <End Role="Player" EntitySet="Player" />
+      <End Role="Team" EntitySet="Team" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Structure_Team1" Association="Self.FK_Structure_Team1">
+      <End Role="Team" EntitySet="Team" />
+      <End Role="Structure" EntitySet="Structure" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

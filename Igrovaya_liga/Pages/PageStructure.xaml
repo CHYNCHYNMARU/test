@@ -1,0 +1,47 @@
+﻿<Page x:Class="Igrovaya_liga.Pages.PageStructure"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Igrovaya_liga.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="524" d:DesignWidth="894"
+      Title="PageStructure">
+
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="177*"/>
+            <ColumnDefinition Width="121*"/>
+        </Grid.ColumnDefinitions>
+
+        <ListView x:Name="teamplayerList" Grid.Column="0" SelectionChanged="teamplayerList_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Фамилия" DisplayMemberBinding="{Binding Path=Player.Surname}" />
+                    <GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Path=Player.Name}"/>
+                    <GridViewColumn Header="Отчество" DisplayMemberBinding="{Binding Path=Player.Patronymic}"/>
+                    <GridViewColumn Header="Начальные очки" DisplayMemberBinding="{Binding Path=Player.resultpoint}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Column="1">
+            <StackPanel Margin="0 0 0 0">
+                <Button ToolTip="Назад" Margin="0 5 15 0" Height="45" Width="45" FontFamily="Segoe MDL2 Assets" FontSize="16" Background="#FF625A97" BorderBrush="#FF625A97" Foreground="White" HorizontalAlignment="Right" Click="Button_Click">
+                    
+                </Button>
+                <TextBlock Text="Выберите игрока" HorizontalAlignment="Center" FontFamily="Segoe UI Light" FontWeight="Bold" FontSize="16"/>
+                <ComboBox x:Name="playerbox" Height="35" Width="250" FontFamily="Segoe UI Light" FontSize="18" Margin="54,2,59,5"/>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="addbtn" ToolTip="Добавить" Margin="0 0 15 0" Height="45" Width="45" FontFamily="Segoe UI Light" FontSize="16" Background="#FF625A97" BorderBrush="#FF625A97" Foreground="White" Click="addbtn_Click">
+                        +
+                    </Button>
+                    <Button x:Name="deletebtn" ToolTip="Удалить" Margin="0 0 0 0" Height="45" Width="45" FontFamily="Segoe MDL2 Assets" FontSize="16" Background="#FF625A97" BorderBrush="#FF625A97" Foreground="White" Click="deletebtn_Click">
+                        
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
